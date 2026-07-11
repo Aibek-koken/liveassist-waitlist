@@ -1,0 +1,58 @@
+import type { Metadata, Viewport } from "next";
+import { Manrope, Inter } from "next/font/google";
+import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "LiveAssist AI — AI-ассистент для отделов продаж",
+  description:
+    "LiveAssist сохраняет важные детали разговора, помогает менеджеру во время звонка, а после — готовит действия для CRM. Ранний доступ для небольших отделов продаж.",
+  metadataBase: new URL("https://liveassist.ai"),
+  openGraph: {
+    title: "LiveAssist AI — AI-ассистент для отделов продаж",
+    description:
+      "Меньше рутины вокруг звонка. Больше внимания клиенту. LiveAssist превращает детали разговора в готовые действия для amoCRM.",
+    locale: "ru_RU",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F6F4EE",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ru" className={`${manrope.variable} ${inter.variable}`}>
+      <body className="font-sans antialiased">
+        <a
+          href="#waitlist"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-paper"
+        >
+          Перейти к форме раннего доступа
+        </a>
+        {children}
+      </body>
+    </html>
+  );
+}
