@@ -220,7 +220,10 @@
   }
   .tile[data-selected="true"] {
     border-color: var(--lime-deep);
-    background: linear-gradient(180deg, rgba(198, 242, 78, 0.16), rgba(198, 242, 78, 0.06));
+    /* лайм кладём ПОВЕРХ белого: иначе сквозь плитку просвечивает фото и текст не читается */
+    background:
+      linear-gradient(180deg, rgba(198, 242, 78, 0.16), rgba(198, 242, 78, 0.06)),
+      var(--surface);
     box-shadow:
       0 0 0 1px var(--lime-deep),
       0 18px 40px -20px rgba(155, 209, 30, 0.55);

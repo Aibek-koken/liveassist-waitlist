@@ -6,7 +6,7 @@ import {
   Check,
   ShieldCheck,
   RotateCcw,
-  ChevronRight,
+  ArrowRight,
   StickyNote,
   ListChecks,
   CalendarClock,
@@ -15,25 +15,16 @@ import {
 import { demo } from "@/lib/content";
 import Reveal from "./Reveal";
 
-const CALM = [0.22, 1, 0.36, 1] as const;
 const STEP_MS = 780;
 
 type Phase = "review" | "applying" | "done";
 type RowStatus = "pending" | "writing" | "applied" | "skipped";
 
-const actionIcons: Record<string, typeof StickyNote> = {
+const rowIcons: Record<string, typeof StickyNote> = {
   note: StickyNote,
   task: ListChecks,
   call: CalendarClock,
   obj: MessageSquareWarning,
-};
-
-// что появляется в колонке amoCRM для каждого действия
-const crmResult: Record<string, string> = {
-  note: "Заметка · итог звонка",
-  task: "Задача · предложение (пт)",
-  call: "Задача · звонок (вт)",
-  obj: "Возражение · уже есть",
 };
 
 function rowStatus(phase: Phase, applied: number, i: number, dup: boolean): RowStatus {
@@ -43,8 +34,6 @@ function rowStatus(phase: Phase, applied: number, i: number, dup: boolean): RowS
   if (i === applied) return "writing";
   return "pending";
 }
-
-const factById = (id: string) => demo.facts.find((f) => f.id === id);
 
 export default function CrmSuggestedActionsDemo() {
   const reduce = useReducedMotion();
@@ -64,7 +53,7 @@ export default function CrmSuggestedActionsDemo() {
     clearTimers();
     setPhase("applying");
     setApplied(0);
-    const total = demo.actions.length;
+    const total = demo.rows.length;
     for (let i = 1; i <= total; i += 1) {
       timers.current.push(window.setTimeout(() => setApplied(i), i * STEP_MS));
     }
@@ -80,7 +69,7 @@ export default function CrmSuggestedActionsDemo() {
   useEffect(() => {
     if (reduce) {
       setPhase("done");
-      setApplied(demo.actions.length);
+      setApplied(demo.rows.length);
     }
   }, [reduce]);
 
@@ -106,7 +95,6 @@ export default function CrmSuggestedActionsDemo() {
 
   return (
     <section className="relative overflow-hidden bg-paper">
-      {/* subtle blurred CRM grid behind the mockup */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.5]">
         <div
           className="absolute inset-0"
@@ -131,51 +119,53 @@ export default function CrmSuggestedActionsDemo() {
             <br />
             <span className="text-ink-soft">{demo.title[1]}</span>
           </h2>
-          <p className="mono mt-4 text-[13px] uppercase tracking-[0.14em] text-ink-soft">
-            {demo.microline}
-          </p>
         </Reveal>
 
-        {/* single large mockup */}
         <Reveal delay={0.05}>
           <div
             ref={containerRef}
-            className="mx-auto mt-12 w-full max-w-[1040px] rounded-[26px] border border-line bg-surface/80 p-2.5 shadow-panel backdrop-blur-sm"
+            className="mx-auto mt-12 w-full max-w-[920px] rounded-[26px] border border-line bg-surface/80 p-2.5 shadow-panel backdrop-blur-sm"
           >
-            <div className="rounded-[20px] border border-line bg-milk/50 p-4 sm:p-5">
-              {/* column headers (desktop) */}
-              <div className="mb-2 hidden grid-cols-[1fr_1.2fr_1fr] gap-3 px-1 md:grid">
-                <ColHead>{demo.factsLabel}</ColHead>
-                <ColHead center>{demo.actionsLabel}</ColHead>
-                <ColHead right>
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="flex h-4 w-4 items-center justify-center rounded-[5px] bg-ink text-[7px] font-bold text-paper">
-                      a
-                    </span>
-                    {demo.crmLabel}
-                  </span>
-                </ColHead>
+            <div className="rounded-[20px] border border-line bg-milk/50 p-4 sm:p-6">
+              {/* карточка сделки — чтобы было видно, куда именно пишем */}
+              <div className="flex items-center gap-2.5 border-b border-line pb-4">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-ink text-[9px] font-bold text-paper">
+                  amo
+                </span>
+                <div className="min-w-0 leading-tight">
+                  <p className="truncate text-[13.5px] font-semibold text-ink">{demo.lead}</p>
+                  <p className="mono text-[11px] text-ink-soft">{demo.leadStage}</p>
+                </div>
               </div>
 
-              {/* pipeline rows */}
-              <div className="space-y-2">
-                {demo.actions.map((a, i) => {
-                  const status = rowStatus(phase, applied, i, a.duplicate);
-                  const fact = factById(a.from);
-                  return (
-                    <PipelineRow
-                      key={a.id}
-                      action={a}
-                      factText={fact?.text ?? ""}
-                      status={status}
-                      reduce={!!reduce}
-                    />
-                  );
-                })}
+              {/* заголовки колонок — на мобильном схлопываются в одну строку */}
+              <p className="mono mt-5 mb-3 flex items-center gap-1.5 text-[10.5px] uppercase tracking-wider text-ink-soft md:hidden">
+                {demo.fromLabel}
+                <ArrowRight size={11} className="shrink-0" />
+                {demo.crmLabel}
+              </p>
+              <div className="mt-5 mb-2.5 hidden grid-cols-[1fr_auto_1fr] items-center gap-4 px-1 md:grid">
+                <p className="mono text-[10.5px] uppercase tracking-wider text-ink-soft">
+                  {demo.fromLabel}
+                </p>
+                <span className="w-4" />
+                <p className="mono text-[10.5px] uppercase tracking-wider text-ink-soft">
+                  {demo.crmLabel}
+                </p>
               </div>
 
-              {/* action bar with inline trust line */}
-              <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="space-y-5 md:space-y-2.5">
+                {demo.rows.map((row, i) => (
+                  <PipelineRow
+                    key={row.id}
+                    row={row}
+                    status={rowStatus(phase, applied, i, row.duplicate)}
+                    reduce={!!reduce}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
                 {phase !== "done" ? (
                   <button
                     type="button"
@@ -224,109 +214,67 @@ export default function CrmSuggestedActionsDemo() {
   );
 }
 
-function ColHead({
-  children,
-  center,
-  right,
-}: {
-  children: React.ReactNode;
-  center?: boolean;
-  right?: boolean;
-}) {
-  return (
-    <p
-      className={`mono text-[10.5px] uppercase tracking-wider text-ink-soft ${
-        center ? "text-center" : right ? "text-right" : ""
-      }`}
-    >
-      {children}
-    </p>
-  );
-}
-
 function PipelineRow({
-  action,
-  factText,
+  row,
   status,
   reduce,
 }: {
-  action: (typeof demo.actions)[number];
-  factText: string;
+  row: (typeof demo.rows)[number];
   status: RowStatus;
   reduce: boolean;
 }) {
-  const Icon = actionIcons[action.id] ?? StickyNote;
+  const Icon = rowIcons[row.id] ?? StickyNote;
   const isApplied = status === "applied";
   const isSkipped = status === "skipped";
   const isWriting = status === "writing";
-  const active = isWriting || isApplied || isSkipped;
-
-  const rowBg = isWriting
-    ? "rgba(198,242,78,0.12)"
-    : isApplied
-      ? "rgba(31,122,70,0.06)"
-      : "transparent";
-
-  const accent = isApplied ? "var(--success)" : isWriting ? "var(--lime-deep)" : "var(--ink-soft)";
 
   return (
-    <div
-      className="grid grid-cols-1 items-stretch gap-2 rounded-[14px] p-1.5 transition-colors duration-500 ease-calm md:grid-cols-[1fr_1.2fr_1fr] md:items-center md:gap-3"
-      style={{ background: rowBg }}
-    >
-      {/* fact (source) */}
-      <div className="flex items-center gap-2 rounded-[11px] border border-line bg-surface px-3 py-2.5">
+    <div className="grid grid-cols-1 items-center gap-2 md:grid-cols-[1fr_auto_1fr] md:gap-4">
+      {/* что услышал ассистент */}
+      <div className="flex items-center gap-2.5 rounded-[12px] border border-line bg-surface px-3.5 py-3">
         <span
           className="h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-500"
-          style={{ background: active ? accent : "var(--ink-soft)" }}
+          style={{ background: isWriting ? "var(--lime-deep)" : "var(--ink-soft)" }}
         />
-        <span className="min-w-0 text-[13px] leading-snug text-ink">
-          <span className="mono mr-1.5 text-[10px] uppercase tracking-wide text-ink-soft md:hidden">
-            из звонка
-          </span>
-          {factText}
-        </span>
+        <span className="min-w-0 text-[13.5px] leading-snug text-ink">{row.fact}</span>
       </div>
 
-      {/* action + status */}
+      {/* стрелка причина → следствие */}
+      <span
+        aria-hidden="true"
+        className="flex justify-center transition-colors duration-500"
+        style={{ color: isApplied ? "var(--success)" : isWriting ? "var(--lime-deep)" : "var(--ink-soft)" }}
+      >
+        <ArrowRight size={16} className="rotate-90 opacity-50 md:rotate-0 md:opacity-100" />
+      </span>
+
+      {/* что уйдёт в amoCRM */}
       <div
-        className="flex items-center justify-between gap-2 rounded-[11px] border px-3 py-2.5 transition-colors duration-500"
+        className="flex items-center justify-between gap-2 rounded-[12px] border px-3.5 py-3 transition-colors duration-500"
         style={{
           borderColor: isWriting
             ? "var(--lime-deep)"
             : isApplied
               ? "rgba(31,122,70,0.3)"
               : "var(--line)",
-          background: isWriting ? "rgba(198,242,78,0.14)" : "var(--surface)",
+          background: isWriting
+            ? "rgba(198,242,78,0.14)"
+            : isApplied
+              ? "rgba(31,122,70,0.07)"
+              : isSkipped
+                ? "rgba(26,24,20,0.03)"
+                : "var(--surface)",
         }}
       >
         <span className="flex min-w-0 items-center gap-2">
-          <ChevronRight size={13} className="hidden shrink-0 text-ink-soft md:block" />
-          <Icon size={15} className="shrink-0" style={{ color: accent }} />
-          <span className="truncate text-[13px] font-semibold text-ink">{action.type}</span>
+          <Icon
+            size={15}
+            className="shrink-0 transition-colors duration-500"
+            style={{ color: isApplied ? "var(--success)" : isWriting ? "var(--lime-deep)" : "var(--ink-soft)" }}
+          />
+          <span className="min-w-0 text-[13.5px] font-medium leading-snug text-ink">{row.crm}</span>
         </span>
-        <StatusTag status={status} label={action.applied} reduce={reduce} />
-      </div>
-
-      {/* amoCRM result */}
-      <div
-        className="flex items-center gap-2 rounded-[11px] border px-3 py-2.5 transition-colors duration-500 md:justify-end"
-        style={{
-          borderColor: isApplied ? "rgba(31,122,70,0.3)" : "var(--line)",
-          background: isApplied ? "rgba(31,122,70,0.07)" : isSkipped ? "rgba(26,24,20,0.03)" : "var(--surface)",
-        }}
-      >
-        <ChevronRight size={13} className="hidden shrink-0 text-ink-soft md:block" />
-        <span className="mono mr-auto text-[10px] uppercase tracking-wide text-ink-soft md:hidden">
-          amoCRM
-        </span>
-        <span
-          className="truncate text-[12px] transition-colors duration-500"
-          style={{ color: isApplied ? "var(--success)" : "var(--ink-soft)" }}
-        >
-          {crmResult[action.id]}
-        </span>
-        {isApplied && <Check size={13} strokeWidth={2.6} className="shrink-0 text-success" />}
+        <StatusTag status={status} label={row.applied} reduce={reduce} />
       </div>
     </div>
   );
@@ -343,21 +291,22 @@ function StatusTag({
 }) {
   if (status === "applied") {
     return (
-      <span className="mono shrink-0 text-[11px] font-semibold text-success">✓ {label}</span>
-    );
-  }
-  if (status === "skipped") {
-    return (
-      <span className="mono shrink-0 text-[11px] font-medium text-ink-soft">⤼ {label}</span>
-    );
-  }
-  if (status === "writing") {
-    return (
-      <span className="mono inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-ink-soft">
-        <span className={`h-1.5 w-1.5 rounded-full bg-lime-deep ${reduce ? "" : "animate-pulse-dot"}`} />
-        …
+      <span className="mono inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-success">
+        <Check size={12} strokeWidth={3} />
+        {label}
       </span>
     );
   }
-  return <span className="mono shrink-0 text-[11px] font-medium text-ink-soft">на проверке</span>;
+  if (status === "skipped") {
+    return <span className="mono shrink-0 text-[11px] font-medium text-ink-soft">⤼ {label}</span>;
+  }
+  if (status === "writing") {
+    return (
+      <span
+        className={`h-1.5 w-1.5 shrink-0 rounded-full bg-lime-deep ${reduce ? "" : "animate-pulse-dot"}`}
+        aria-hidden="true"
+      />
+    );
+  }
+  return null;
 }

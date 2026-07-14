@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   CheckCircle2,
@@ -11,6 +11,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { waitlist } from "@/lib/content";
+import { INTEREST_EVENT } from "@/lib/interest";
 import teamImg from "@/public/team-sales.jpg";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -22,6 +23,23 @@ export default function WaitlistForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [emailError, setEmailError] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+
+  // «Хочу это первым» в секциях «Скоро» → сразу отмечает вариант здесь,
+  // чтобы интерес к фиче ушёл в базу вместе с email.
+  useEffect(() => {
+    const onInterest = (e: Event) => {
+      const value = (e as CustomEvent<string>).detail;
+      if (waitlist.pain.options.some((o) => o.value === value)) {
+        setPain(value);
+        window.setTimeout(
+          () => document.getElementById("wl-email")?.focus({ preventScroll: true }),
+          700,
+        );
+      }
+    };
+    window.addEventListener(INTEREST_EVENT, onInterest);
+    return () => window.removeEventListener(INTEREST_EVENT, onInterest);
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
