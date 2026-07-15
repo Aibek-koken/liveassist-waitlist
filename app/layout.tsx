@@ -22,6 +22,17 @@ export const metadata: Metadata = {
   description:
     "LiveAssist сохраняет важные детали разговора, помогает менеджеру во время звонка, а после — готовит действия для CRM. Ранний доступ для небольших отделов продаж.",
   metadataBase: new URL("https://liveassist.ai"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "LiveAssist AI — AI-ассистент для отделов продаж",
     description:

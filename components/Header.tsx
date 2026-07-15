@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { header } from "@/lib/content";
 
@@ -24,10 +25,21 @@ export default function Header() {
       <div className="shell flex h-16 items-center justify-between gap-4">
         <a
           href="#top"
-          className="font-display text-[18px] font-extrabold tracking-tight text-ink"
+          className="inline-flex items-center gap-2 font-display text-[18px] font-extrabold tracking-tight text-ink"
         >
-          {header.brand}
-          <span className="text-lime-deep">.</span>
+          <Image
+            src="/icons/icon-512x512.png"
+            width={32}
+            height={32}
+            sizes="32px"
+            alt=""
+            priority
+            className="h-8 w-8 shrink-0"
+          />
+          <span>
+            {header.brand}
+            <span className="text-lime-deep">.</span>
+          </span>
         </a>
 
         <nav className="hidden items-center gap-7 sm:flex" aria-label="Основная навигация">
