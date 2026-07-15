@@ -185,9 +185,28 @@ export const waitlist = {
 export const footer = {
   brand: "LiveAssist AI",
   tagline: "Ранний доступ для небольших отделов продаж.",
-  links: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
+  socialLabel: "Мы в соцсетях",
+  socialLinks: [
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/aibek-zharylkassyn/",
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/liveassist_/?hl=ru",
+    },
+    { label: "X", href: "https://x.com/zharylkassyn_a" },
   ],
-  copyright: "© 2026 LiveAssist AI",
+  contactLabel: "Контакты",
+  contacts: [
+    { label: "aibek@liveassist.tech", href: "mailto:aibek@liveassist.tech" },
+    { label: "+7 706 656 96 10", href: "tel:+77066569610" },
+  ],
+  legalLabel: "Правовая информация",
+  links: [
+    { label: "Конфиденциальность", href: "/privacy" },
+    { label: "Условия", href: "/terms" },
+  ],
+  copyright: "© 2026 LiveAssist AI. Все права защищены.",
+  builtBy: "Сделал Айбек Жарылкасын",
 };
