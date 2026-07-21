@@ -4,7 +4,7 @@ import HowItWorks from "@/components/HowItWorks";
 import WhatsappAgent from "@/components/WhatsappAgent";
 import CrmSuggestedActionsDemo from "@/components/CrmSuggestedActionsDemo";
 import ScriptsSoon from "@/components/ScriptsSoon";
-import WaitlistForm from "@/components/WaitlistForm";
+import Demo from "@/components/Demo";
 import Footer from "@/components/Footer";
 
 export default function Page() {
@@ -22,8 +22,8 @@ export default function Page() {
         <CrmSuggestedActionsDemo />
         {/* Блок 5 — вторая идея роадмапа: скрипты (меряем спрос) */}
         <ScriptsSoon />
-        {/* Блок 6 — waitlist */}
-        <WaitlistForm />
+        {/* Блок 6 — живое демо приложения + скачивание */}
+        <Demo />
       </main>
       <Footer />
     </>

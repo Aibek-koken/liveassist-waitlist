@@ -58,10 +58,10 @@ export default function RootLayout({
     <html lang="ru" className={`${manrope.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
         <a
-          href="#waitlist"
+          href="#download"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-paper"
         >
-          Перейти к форме раннего доступа
+          Перейти к скачиванию
         </a>
         {children}
         <Analytics />

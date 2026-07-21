@@ -66,17 +66,17 @@ export default function Hero() {
           </div>
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px]">
             <a
-              href="#how"
+              href="#demo"
               className="inline-flex items-center gap-1.5 font-medium text-ink-soft transition-colors hover:text-ink"
             >
               {hero.secondaryCta}
               <ArrowUpRight size={15} />
             </a>
             <a
-              href="#waitlist"
+              href="#how"
               className="inline-flex items-center gap-1.5 font-medium text-ink-soft transition-colors hover:text-ink"
             >
-              {hero.primaryCta}
+              {hero.howCta}
               <ArrowRight size={15} />
             </a>
           </div>

@@ -42,7 +42,14 @@ function osIcon(os: DetectedOs) {
   return <Download size={16} />;
 }
 
-export default function DownloadButtons() {
+type Props = {
+  /** id-якорь для этого блока. Только один блок на странице должен нести
+   *  "download" (сюда ведут /account и /signup) — остальным передавай null. */
+  anchorId?: string | null;
+  align?: "left" | "center";
+};
+
+export default function DownloadButtons({ anchorId = "download", align = "left" }: Props) {
   // На сервере и до гидрации ОС неизвестна — показываем нейтральную сборку,
   // чтобы не было рассинхрона гидрации.
   const [os, setOs] = useState<DetectedOs>("unknown");
@@ -60,9 +67,11 @@ export default function DownloadButtons() {
   // Пока ОС не определена (или мобильный/неизвестно) — ведём на страницу выбора.
   const primaryHref = rec ? rec.url : "/download";
 
+  const centered = align === "center";
+
   return (
-    <div id="download" className="scroll-mt-24">
-      <div className="flex flex-wrap items-center gap-3">
+    <div {...(anchorId ? { id: anchorId } : {})} className="scroll-mt-24">
+      <div className={`flex flex-wrap items-center gap-3 ${centered ? "justify-center" : ""}`}>
         <a
           href={primaryHref}
           className="btn-primary"
@@ -77,7 +86,7 @@ export default function DownloadButtons() {
           {t.allPlatforms}
         </Link>
       </div>
-      <p className="mono mt-3 text-[12px] text-ink-soft">
+      <p className={`mono mt-3 text-[12px] text-ink-soft ${centered ? "text-center" : ""}`}>
         macOS · Windows · Linux · v{DOWNLOAD_VERSION} · {t.free}
       </p>
     </div>

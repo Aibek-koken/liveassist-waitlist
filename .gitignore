@@ -30,3 +30,6 @@ next-env.d.ts
 
 # Supabase CLI local state
 /supabase/.temp/
+
+# demo source master (47MB) — web-encoded copy lives in public/demo.mp4
+/doc/

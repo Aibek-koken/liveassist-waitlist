@@ -16,7 +16,7 @@ export const header = {
   nav: [
     { label: "Как работает", href: "/#how" },
     { label: "WhatsApp-агент", href: "/#agent" },
-    { label: "Ранний доступ", href: "/#waitlist" },
+    { label: "Демо", href: "/#demo" },
   ],
   cta: "Скачать",
   ctaHref: "/download",
@@ -27,7 +27,8 @@ export const hero = {
   title: ["Слушайте клиента.", "Остальное запомнит LiveAssist."],
   subtitle: "Подскажет во время звонка и подготовит CRM после него.",
   primaryCta: "Получить ранний доступ",
-  secondaryCta: "Смотреть в действии",
+  secondaryCta: "Смотреть демо",
+  howCta: "Как это работает",
   // CTA-строка скачивания под текстом hero (id="download")
   download: {
     detecting: "Определяем систему…",
@@ -158,6 +159,14 @@ export const demo = {
   doneBanner: "CRM обновлена",
   replayCta: "Заново",
   trustInline: "Ничего не уходит в CRM без вашего подтверждения",
+};
+
+/** Финальный блок — живое демо приложения + скачивание. */
+export const demoSection = {
+  eyebrow: "Живое демо",
+  title: ["Посмотрите LiveAssist", "в действии."],
+  subtitle: "Ассистент подсказывает во время звонка и сам готовит действия для amoCRM.",
+  videoLabel: "Демонстрация работы LiveAssist",
 };
 
 export const waitlist = {
