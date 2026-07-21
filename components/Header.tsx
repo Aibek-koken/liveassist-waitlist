@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
 import { header } from "@/lib/content";
 
 export default function Header() {
@@ -23,8 +25,8 @@ export default function Header() {
       }`}
     >
       <div className="shell flex h-16 items-center justify-between gap-4">
-        <a
-          href="#top"
+        <Link
+          href="/"
           className="inline-flex items-center gap-2 font-display text-[18px] font-extrabold tracking-tight text-ink"
         >
           <Image
@@ -40,7 +42,7 @@ export default function Header() {
             {header.brand}
             <span className="text-lime-deep">.</span>
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-7 sm:flex" aria-label="Основная навигация">
           {header.nav.map((item) => (
@@ -54,9 +56,10 @@ export default function Header() {
           ))}
         </nav>
 
-        <a href="#waitlist" className="btn-primary !min-h-[42px] !px-5 !text-[14px]">
+        <Link href={header.ctaHref} className="btn-primary !min-h-[42px] !px-5 !text-[14px]">
+          <Download size={15} aria-hidden="true" />
           {header.cta}
-        </a>
+        </Link>
       </div>
     </header>
   );

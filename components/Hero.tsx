@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, ArrowUpRight, ArrowRight } from "lucide-react";
 import { hero } from "@/lib/content";
+import DownloadButtons from "@/components/DownloadButtons";
 import heroImg from "@/public/hero-manager.jpg";
 
 const CALM = [0.22, 1, 0.36, 1] as const;
@@ -59,13 +60,24 @@ export default function Hero() {
           <p className="mt-5 max-w-[42ch] text-[clamp(16px,1.4vw,19px)] leading-[1.55] text-ink-soft">
             {hero.subtitle}
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#waitlist" className="btn-primary">
-              {hero.primaryCta}
-            </a>
-            <a href="#how" className="btn-ghost">
+          {/* download-first CTA (id="download" — сюда ведут /account и /signup) */}
+          <div className="mt-8">
+            <DownloadButtons />
+          </div>
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px]">
+            <a
+              href="#how"
+              className="inline-flex items-center gap-1.5 font-medium text-ink-soft transition-colors hover:text-ink"
+            >
               {hero.secondaryCta}
-              <ArrowUpRight size={16} />
+              <ArrowUpRight size={15} />
+            </a>
+            <a
+              href="#waitlist"
+              className="inline-flex items-center gap-1.5 font-medium text-ink-soft transition-colors hover:text-ink"
+            >
+              {hero.primaryCta}
+              <ArrowRight size={15} />
             </a>
           </div>
         </div>

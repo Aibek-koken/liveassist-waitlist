@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: "LiveAssist AI — AI-ассистент для отделов продаж",
   description:
     "LiveAssist сохраняет важные детали разговора, помогает менеджеру во время звонка, а после — готовит действия для CRM. Ранний доступ для небольших отделов продаж.",
-  metadataBase: new URL("https://liveassist.ai"),
+  metadataBase: new URL("https://liveassist.tech"),
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },

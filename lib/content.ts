@@ -14,11 +14,12 @@ export const site = {
 export const header = {
   brand: "LiveAssist",
   nav: [
-    { label: "Как работает", href: "#how" },
-    { label: "WhatsApp-агент", href: "#agent" },
-    { label: "Ранний доступ", href: "#waitlist" },
+    { label: "Как работает", href: "/#how" },
+    { label: "WhatsApp-агент", href: "/#agent" },
+    { label: "Ранний доступ", href: "/#waitlist" },
   ],
-  cta: "Получить доступ",
+  cta: "Скачать",
+  ctaHref: "/download",
 };
 
 export const hero = {
@@ -27,6 +28,14 @@ export const hero = {
   subtitle: "Подскажет во время звонка и подготовит CRM после него.",
   primaryCta: "Получить ранний доступ",
   secondaryCta: "Смотреть в действии",
+  // CTA-строка скачивания под текстом hero (id="download")
+  download: {
+    detecting: "Определяем систему…",
+    forOs: "Скачать для", // + «macOS» / «Windows» / «Linux»
+    generic: "Скачать приложение",
+    allPlatforms: "Все платформы",
+    free: "Бесплатно · без карты",
+  },
   // подписи для плавающего overlay поверх фотографии
   scene: {
     live: "LiveAssist",
@@ -180,6 +189,29 @@ export const waitlist = {
       { value: "scripts", label: "Скрипты не отражают реальные разговоры", scene: "scripts" as const },
     ],
   },
+};
+
+/** Страница /download — подробный выбор платформы (RU). */
+export const downloadPage = {
+  back: "На главную",
+  eyebrow: "Десктоп-приложение",
+  title: "Скачать LiveAssist AI",
+  subtitle:
+    "Бесплатно попробовать. Ассистент подсказывает во время звонка и готовит действия для amoCRM после него — прямо на вашем компьютере.",
+  recommendedFor: "Рекомендуем для",
+  recommendedNote: "Мы определили вашу систему. Не подходит? Выберите другую ниже.",
+  download: "Скачать для",
+  choose: "Все платформы",
+  chooseSub: "Выберите сборку под вашу операционную систему.",
+  linux: "Linux",
+  verifyTitle: "Проверьте загрузку",
+  verifyBody: "К каждому релизу прилагается SHA256SUMS.txt. На macOS или Linux выполните:",
+  verifyCmd: "shasum -a 256 -c SHA256SUMS.txt",
+  checksums: "Открыть SHA256SUMS.txt",
+  macNoteLabel: "macOS",
+  macNote: "Если macOS блокирует приложение при первом запуске, выполните в Terminal:",
+  macNoteCmd: 'xattr -cr "/Applications/LiveAssist AI.app"',
+  versionLabel: "Последняя сборка",
 };
 
 export const footer = {
