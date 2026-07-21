@@ -47,9 +47,15 @@ type Props = {
    *  "download" (сюда ведут /account и /signup) — остальным передавай null. */
   anchorId?: string | null;
   align?: "left" | "center";
+  /** "lg" — крупная, максимально заметная кнопка (для hero). */
+  size?: "md" | "lg";
 };
 
-export default function DownloadButtons({ anchorId = "download", align = "left" }: Props) {
+export default function DownloadButtons({
+  anchorId = "download",
+  align = "left",
+  size = "md",
+}: Props) {
   // На сервере и до гидрации ОС неизвестна — показываем нейтральную сборку,
   // чтобы не было рассинхрона гидрации.
   const [os, setOs] = useState<DetectedOs>("unknown");
@@ -68,21 +74,26 @@ export default function DownloadButtons({ anchorId = "download", align = "left" 
   const primaryHref = rec ? rec.url : "/download";
 
   const centered = align === "center";
+  const lg = size === "lg";
+  const iconSize = lg ? 19 : 16;
 
   return (
     <div {...(anchorId ? { id: anchorId } : {})} className="scroll-mt-24">
       <div className={`flex flex-wrap items-center gap-3 ${centered ? "justify-center" : ""}`}>
         <a
           href={primaryHref}
-          className="btn-primary"
+          className={`btn-primary ${lg ? "!min-h-[60px] !gap-2.5 !px-9 !text-[16.5px] !font-extrabold" : ""}`}
           aria-label={primaryLabel}
         >
           <span className="inline-flex items-center" aria-hidden="true">
-            {ready ? osIcon(os) : <Download size={16} />}
+            {ready ? osIcon(os) : <Download size={iconSize} />}
           </span>
           {primaryLabel}
         </a>
-        <Link href="/download" className="btn-ghost">
+        <Link
+          href="/download"
+          className={`btn-ghost ${lg ? "!min-h-[60px] !px-7" : ""}`}
+        >
           {t.allPlatforms}
         </Link>
       </div>

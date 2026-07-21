@@ -62,7 +62,7 @@ export default function Hero() {
           </p>
           {/* download-first CTA (id="download" — сюда ведут /account и /signup) */}
           <div className="mt-8">
-            <DownloadButtons />
+            <DownloadButtons size="lg" />
           </div>
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px]">
             <a
